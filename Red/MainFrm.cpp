@@ -131,6 +131,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		}
 	}
 
+	/*
 	// enable menu personalization (most-recently used commands)
 	// TODO: define your own basic commands, ensuring that each pulldown menu has at least one basic command.
 	CList<UINT, UINT> lstBasicCommands;
@@ -148,7 +149,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	lstBasicCommands.AddTail(ID_VIEW_TOOLBAR);
 
 	CMFCToolBar::SetBasicCommands(lstBasicCommands);
-
+	*/
 
 
 	return 0;
@@ -256,7 +257,8 @@ void CMainFrame::OnWindowGreenview()
 		pView->UpdateWindow();
 		if(lp_view_active != pView)
 		{
-			pView->SetActiveWindow();
+			pView-> SetActiveWindow();
+			lp_view_active->ShowWindow(SW_HIDE);
 		}
 		
 	}   

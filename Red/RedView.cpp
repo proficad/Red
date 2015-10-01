@@ -26,6 +26,7 @@ BEGIN_MESSAGE_MAP(CRedView, CView)
 	ON_COMMAND(ID_FILE_PRINT, &CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CRedView::OnFilePrintPreview)
+	ON_COMMAND(ID_WINDOW_SWITCH, SwitchView)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
 END_MESSAGE_MAP()
@@ -104,6 +105,11 @@ void CRedView::OnContextMenu(CWnd* /* pWnd */, CPoint point)
 #endif
 }
 
+
+void CRedView::SwitchView()
+{
+	int i = 4;	
+}
 
 // CRedView diagnostics
 
