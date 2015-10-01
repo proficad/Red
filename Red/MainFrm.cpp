@@ -44,7 +44,7 @@ static UINT indicators[] =
 CMainFrame::CMainFrame()
 {
 	m_greenTemplate	= nullptr;
-	m_frame_green = nullptr;
+	//m_frame_green = nullptr;
 }
 
 CMainFrame::~CMainFrame()
@@ -149,6 +149,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	CMFCToolBar::SetBasicCommands(lstBasicCommands);
 
+
+
 	return 0;
 }
 
@@ -213,21 +215,53 @@ LRESULT CMainFrame::OnToolbarCreateNew(WPARAM wp,LPARAM lp)
 
 void CMainFrame::OnWindowGreenview()
 {
+
+
 	if(m_greenTemplate == NULL)
+	{
 		m_greenTemplate = new CMultiDocTemplate(IDR_GreenTYPE,
 		RUNTIME_CLASS(CRedDoc),
 		RUNTIME_CLASS(CChildFrame),
 		RUNTIME_CLASS(CGreenView));
-	ASSERT(m_greenTemplate != NULL);
+
+		CRedDoc * doc = dynamic_cast<CRedDoc*>(GetCurrentDocument());
+		if(doc != NULL)
+		{
+			CFrameWnd * l_frame_green = m_greenTemplate->CreateNewFrame(doc, NULL);
+			if(l_frame_green != NULL)
+			{ 
+				l_frame_green->InitialUpdateFrame(doc, TRUE);
+			} 
+		}
+	}
+
 	if(m_greenTemplate == NULL)
+	{
 		return; // internal error should not occur
-	CRedDoc * doc = (CRedDoc *)GetCurrentDocument();
-	ASSERT(doc != NULL);
+	}
+	
+	CRedDoc * doc = dynamic_cast<CRedDoc*>(GetCurrentDocument());
 	if(doc == NULL)
+	{
 		return; // should not be possible
+	}
+
+	CView* lp_view_active = MyGetActiveView();
 
 	//check whether this frame exists
-	
+	POSITION pos = doc->GetFirstViewPosition();
+	while (pos != NULL)
+	{
+		CView* pView = doc->GetNextView(pos);
+		pView->UpdateWindow();
+		if(lp_view_active != pView)
+		{
+			pView->SetActiveWindow();
+		}
+		
+	}   
+
+	/*
 	CDocument* pDoc = NULL;
 	POSITION l_pos = m_greenTemplate->GetFirstDocPosition();
 	while (l_pos != NULL)
@@ -246,8 +280,9 @@ void CMainFrame::OnWindowGreenview()
 			return;//doc found, no need to create a new one
 		}
 	}
-	
+	*/
 
+	/*
 	if (m_frame_green)
 	{
 		m_frame_green->ActivateFrame(SW_SHOW);
@@ -257,11 +292,11 @@ void CMainFrame::OnWindowGreenview()
 		m_frame_green = m_greenTemplate->CreateNewFrame(doc, NULL);
 		ASSERT(m_frame_green != NULL);
 		if(m_frame_green != NULL)
-		{ /* frame created */
+		{ 
 			m_frame_green->InitialUpdateFrame(doc, TRUE);
-		} /* frame created */
+		} 
 	}
-	
+	*/
 
 }
 
@@ -313,4 +348,17 @@ CView* CMainFrame::GetFirstView(CDocument* pDoc)
 	POSITION pos = pDoc->GetFirstViewPosition();
 	CView* pFirstView = pDoc->GetNextView(pos);
 	return pFirstView;
+}
+
+CView* CMainFrame::MyGetActiveView()
+{
+	CMDIFrameWnd *pFrame = (CMDIFrameWnd*)AfxGetApp()->GetMainWnd();
+
+	// Get the active MDI child window.
+	CMDIChildWnd *pChild = (CMDIChildWnd*)pFrame->GetActiveFrame();
+
+	// or CMDIChildWnd *pChild = pFrame->MDIGetActive();
+
+	// Get the active view attached to the active MDI child window.
+	return pChild->GetActiveView();
 }

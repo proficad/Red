@@ -55,7 +55,8 @@ protected:
 private:
 	CDocument * GetCurrentDocument();
 	CView* GetFirstView(CDocument* pDoc);
-	CFrameWnd * m_frame_green;
+	CView* MyGetActiveView();
+	//CFrameWnd * m_frame_green;
 };
 
 
