@@ -22,6 +22,8 @@ CGreenClass::~CGreenClass()
 }
 
 
+//this change made locally
+
 BEGIN_MESSAGE_MAP(CGreenClass, CWnd)
 END_MESSAGE_MAP()
 
