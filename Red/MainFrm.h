@@ -4,6 +4,7 @@
 
 #pragma once
 
+// velká změna ve větvi
 
 class CRedDoc;
 
