@@ -6,6 +6,8 @@
 #include "GreenClass.h"
 
 
+// edited on github website
+
 // CGreenClass
 
 IMPLEMENT_DYNAMIC(CGreenClass, CWnd)
